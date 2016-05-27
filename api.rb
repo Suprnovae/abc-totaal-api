@@ -3,5 +3,7 @@ module Basic
     get '/version' do
       { name: 'alpha' }
     end
+
+    mount Basic::Overview => '/overview'
   end
 end
