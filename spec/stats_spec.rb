@@ -7,10 +7,16 @@ describe Basic::API do
     Basic::API
   end
 
-  context 'GET /version' do
-    it 'returns something' do
+  context 'stats GET ' do
+    it '/version succeeds' do
       get '/version'
       expect(last_response.status).to eq(200)
+    end
+
+    it '/stats displays record count' do
+      get '/stats'
+      expect(last_response.status).to eq(200)
+      p last_response
     end
   end
 end
