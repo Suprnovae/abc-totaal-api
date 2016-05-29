@@ -10,3 +10,4 @@ group :test do
 end
 
 gem 'mongoid', '~> 5.1.3'
+gem 'bcrypt', '~> 3.1.11'
