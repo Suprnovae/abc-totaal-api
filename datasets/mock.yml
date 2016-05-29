@@ -1,0 +1,11 @@
+- description: "Profit"
+  predicted: 20332
+  actual: 24948
+  tablets:
+    - value: 4616
+      color: blue
+    - text: April
+  difference: 4616
+  timespan: 1Q
+  gauge: 1
+  visor: 20332/24948
