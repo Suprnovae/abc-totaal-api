@@ -2,16 +2,15 @@ require 'spec_helper'
 
 RSpec.describe Basic::Models::Report, type: :model do
   before(:each) { described_class.collection.drop }
+  let(:acme_report) { {
+    organization: 'Acme Corp',
+    comment: 'Just an update',
+    data: []
+  } }
 
   it { should have_field :organization }
   it { should have_field :comment }
   it { should have_field :updated_at }
   it { should have_field :data }
-#  it { p described_class.count }
-#  it { p described_class.create!(
-#    organization: 'Acme Corp',
-#    comment: 'Just an update',
-#    data: {}
-#  ) }
-  #it { p "Everything is #{described_class.all}" }
+  it { expect(described_class.create!(acme_report).persisted?).to eq(true) }
 end
