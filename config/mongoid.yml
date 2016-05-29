@@ -8,6 +8,6 @@ test:
   <<: *base
   clients:
     default:
-      uri: <%= ENV['MONGODB_TEST__URI'] %>
+      uri: <%= ENV['MONGODB_TEST_URI'] %>
 production:
   <<: *base
