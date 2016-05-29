@@ -1,6 +1,8 @@
 require 'spec_helper'
 
 RSpec.describe Basic::Models::Report, type: :model do
+  before(:each) { described_class.collection.drop }
+
   it { should have_field :organization }
   it { should have_field :comment }
   it { should have_field :updated_at }
