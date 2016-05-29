@@ -10,10 +10,6 @@ namespace :db do
       puts 'Specify RAILS_ENV' and exit
     end
 
-    require 'mongoid'
-    Dir[File.dirname(__FILE__) + '/models/*.rb'].each {|file| require file }
-
-    Mongoid.load! 'config/mongoid.yml'
     [Basic::Models::Report, Basic::Models::User].each do |model|
       puts "Creating indexes for #{model}: #{model.create_indexes}"
     end
@@ -26,10 +22,6 @@ namespace :db do
       puts 'Specify RAILS_ENV' and exit
     end
 
-    require 'mongoid'
-    Dir[File.dirname(__FILE__) + '/models/*.rb'].each {|file| require file }
-
-    Mongoid.load! 'config/mongoid.yml'
     [Basic::Models::Report, Basic::Models::User].each do |model|
       puts "Removing indexes for #{model}: #{model.remove_indexes}"
     end
