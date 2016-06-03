@@ -11,3 +11,7 @@ end
 
 gem 'mongoid', '~> 5.1.3'
 gem 'bcrypt', '~> 3.1.11'
+
+group :production do
+  gem 'newrelic_rpm', '~> 3.15.2.317'
+end
