@@ -28,10 +28,18 @@ module Basic
 
       before_save :encrypt_password
 
+      def has_password?(secret)
+        return true if self.password == secret
+        false
+      end
+
       def self.authenticates_with?(handle, secret)
-        user = where(email: handle).first
-        return false unless user
-        Password.new(user.salt) == secret
+        user = self.where(email: handle).first
+        user && user.has_password?(secret)
+      end
+
+      def password
+        Password.new(self.salt)
       end
 
       def encrypt_password
