@@ -1,11 +1,11 @@
 source 'https://rubygems.org'
 ruby '2.3.1'
 
-gem 'grape'
+gem 'grape', '~> 0.16.2'
 
 group :test do
-  gem 'rack-test'
-  gem 'rspec'
+  gem 'rack-test', '~> 0.6.3'
+  gem 'rspec', '~> 3.4.0'
   gem 'mongoid-rspec', '~> 3.0.0'
 end
 
