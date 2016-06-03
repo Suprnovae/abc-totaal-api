@@ -11,10 +11,13 @@ module Basic
        p "Sender is #{sender}"
        p "From #{from}"
        p "Subject is #{subject}"
+       p "There are #{params[:'attachment-count']} attachments"
        if params[:attachment]
          attachments = JSON.parse(params[:attachment])
-         attachments.each do |attachment|
+         attachments.each do |attachment, index|
+           params[
            p " - Attachment is #{attachment}"
+           p "   Contains #{params[:"attachment-#{index}"]}"
          end
        end
        status :created
