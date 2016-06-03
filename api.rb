@@ -6,5 +6,6 @@ module Basic
 
     mount Basic::Overview => '/overview'
     mount Basic::Stats => '/stats'
+    mount Basic::Inbox => '/inbox'
   end
 end
