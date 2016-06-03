@@ -2,4 +2,4 @@ deployment:
   staging:
     branch: master
     heroku:
-      appname: <%= ENV['APP_SHORTNAME'] %>
+      appname: abc-totaal-api
