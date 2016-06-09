@@ -2,8 +2,8 @@ deployment:
   staging:
     branch: develop
     heroku:
-      appname: $STAGING_APP
+      appname: cockpit-staging-abctotaal
   production:
     branch: master
     heroku:
-      appname: $PRODUCTION_APP
+      appname: cockpit-production-abctotaal
