@@ -1,5 +1,8 @@
 deployment:
   staging:
+    branch: develop
+    heroku:
+      appname: $STAGING_APP
     branch: master
     heroku:
-      appname: abc-totaal-api
+      appname: $PRODUCTION_APP
