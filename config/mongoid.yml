@@ -4,10 +4,10 @@ development: &base
       uri: <%= ENV['MONGODB_URI'] %>
       options:
         connect_timeout: 15
+production:
+  <<: *base
 test:
   <<: *base
   clients:
     default:
       uri: <%= ENV['MONGODB_TEST_URI'] %>
-production:
-  <<: *base
