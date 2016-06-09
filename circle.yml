@@ -3,6 +3,7 @@ deployment:
     branch: develop
     heroku:
       appname: $STAGING_APP
+  production:
     branch: master
     heroku:
       appname: $PRODUCTION_APP
