@@ -17,7 +17,7 @@ module Basic
        p "There are #{params[:'attachment-count'] || 0} attachments"
        # how to get an attachment from Mailgun?
        if params[:'attachment-count']
-         (1..params[:'attachment-count']).each do |attachment_id|
+         (1..params[:'attachment-count'].to_i).each do |attachment_id|
            file = params["attachment-#{attachment_id}"]
            p "FILE #{file}"
            p "file #{file[:tempfile]}"
