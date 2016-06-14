@@ -11,9 +11,12 @@ module Basic
        p "Sender is #{sender}"
        p "From #{from}"
        p "Subject is #{subject}"
+       p "params #{params}"
+       p "request #{request}"
+       p request
        p "There are #{params[:'attachment-count'] || 0} attachments"
        # how to get an attachment from Mailgun?
-       if params[:attachment]
+       if params[:attachments]
          attachments = JSON.parse(params[:attachment])
          attachments.each do |attachment, index|
            p " - Attachment is #{attachment}"
