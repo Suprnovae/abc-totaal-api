@@ -24,7 +24,7 @@ module Basic
        if attachments > 0
          (1..attachments).each do |attachment_id|
            file = params["attachment-#{attachment_id}"]
-           label = file[:filename].strip.downcase.splice!('.csv')
+           label = file[:filename].strip.downcase.slice!('.csv')
            doc = Basic::Models::Report.find_or_initialize_by shortname: label
            if false
              doc.organization = subject
