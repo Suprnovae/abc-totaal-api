@@ -38,7 +38,7 @@ module Basic
            p "path #{file[:tempfile].path}"
            data = CSV.new(file[:tempfile], headers: true, converters: :all)
            p "data is #{data}"
-           data.map do |row| 
+           data.to_a.map do |row| 
              {
                description: row["KSF"],
                predicted: row["Prognose"],
