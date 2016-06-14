@@ -16,13 +16,21 @@ module Basic
        p request
        p "There are #{params[:'attachment-count'] || 0} attachments"
        # how to get an attachment from Mailgun?
-       if params[:attachments]
-         attachments = JSON.parse(params[:attachment])
-         attachments.each do |attachment, index|
-           p " - Attachment is #{attachment}"
-           p "   Contains #{params[:"attachment-#{index}"]}"
+       if params[:'attachment-count']
+         (1..params[:'attachment-count']).each do |attachment_id|
+           file = params["attachment-#{attachment_id}"]
+           p "FILE #{file}"
+           p "file #{file[:tempfile]}"
+           p "head#{file[:head]}"
          end
        end
+#       if params[:attachments]
+#         attachments = JSON.parse(params[:attachment])
+#         attachments.each do |attachment, index|
+#           p " - Attachment is #{attachment}"
+#           p "   Contains #{params[:"attachment-#{index}"]}"
+#         end
+#       end
        status :created
        # status :conflict
     end
