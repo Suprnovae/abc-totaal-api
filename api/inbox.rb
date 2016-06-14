@@ -1,3 +1,5 @@
+require 'csv'
+
 module Basic
   class Inbox < Grape::API
      post '/' do
@@ -11,9 +13,9 @@ module Basic
        p "Sender is #{sender}"
        p "From #{from}"
        p "Subject is #{subject}"
-       p "params #{params}"
-       p "request #{request}"
-       p request
+       #p "params #{params}"
+       #p "request #{request}"
+       #p request
        p "There are #{params[:'attachment-count'] || 0} attachments"
        # how to get an attachment from Mailgun?
        if params[:'attachment-count']
@@ -21,7 +23,11 @@ module Basic
            file = params["attachment-#{attachment_id}"]
            p "FILE #{file}"
            p "file #{file[:tempfile]}"
-           p "head#{file[:head]}"
+           p "size #{file[:tempfile].size}"
+           p "path #{file[:tempfile].path}"
+             data = CSV.read(file[:tempfile])
+             p "data is #{data}"
+           #p "head#{file[:head]}"
          end
        end
 #       if params[:attachments]
