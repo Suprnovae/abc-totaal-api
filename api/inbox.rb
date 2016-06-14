@@ -16,12 +16,13 @@ module Basic
        #p "params #{params}"
        #p "request #{request}"
        #p request
-       p "There are #{params[:'attachment-count'] || 0} attachments"
+       p "There are #{params[:'attachment-count'] || 1} attachments"
        # how to get an attachment from Mailgun?
        if params[:'attachment-count']
          (1..params[:'attachment-count'].to_i).each do |attachment_id|
            file = params["attachment-#{attachment_id}"]
            p "FILE #{file}"
+           p "name #{file[:filename]}"
            p "file #{file[:tempfile]}"
            p "size #{file[:tempfile].size}"
            p "path #{file[:tempfile].path}"
