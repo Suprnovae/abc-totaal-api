@@ -23,7 +23,7 @@ module Basic
            file = params["attachment-#{attachment_id}"]
            filename = file[:filename]
            basename = File.basename(filename, File.extname(filename))
-           label = filename..gsub!(/( )+/, '_').downcase
+           label = basename.gsub!(/( )+/, '_').downcase
            doc = Basic::Models::Report.find_or_initialize_by shortname: label
            if attachments == 1
              doc.organization = subject
