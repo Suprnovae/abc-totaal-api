@@ -36,9 +36,8 @@ module Basic
            p "file #{file[:tempfile]}"
            p "size #{file[:tempfile].size}"
            p "path #{file[:tempfile].path}"
-           data = CSV.new(file[:tempfile], headers: true, converters: :all)
-           p "data is #{data}"
-           data.to_a.map do |row| 
+           csv = CSV.new(file[:tempfile], headers: true, converters: :all)
+           data = csv.to_a.map do |row| 
              {
                description: row["KSF"],
                predicted: row["Prognose"],
