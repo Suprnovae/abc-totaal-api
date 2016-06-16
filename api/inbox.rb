@@ -11,12 +11,12 @@ module Basic
        subject = params[:subject]
        comment = params[:'body-plain']
        attachments = (params[:'attachment-count'].to_i || 0)
-       p "Recipient is #{recipient}"
-       p "Sender is #{sender}"
-       p "From #{from}"
-       p "Subject is #{subject}"
-       p "Comment is #{comment}"
-       p "Attachments #{attachments}"
+       p "Recipient: #{recipient}"
+       p "Sender: #{sender}"
+       p "From: #{from}"
+       p "Subject: #{subject}"
+       p "Comment:#{comment}"
+       p "Attachments: #{attachments}"
 
        if attachments > 0
          (1..attachments).each do |attachment_id|
@@ -30,12 +30,13 @@ module Basic
              doc.comment = comment
            end
            p "======="
-           p "Filename #{filename}"
-           p "Label #{label}"
-           p "Size #{file[:tempfile].size}"
-           p "Path #{file[:tempfile].path}"
+           p "Filename: #{filename}"
+           p "Label: #{label}"
+           p "Size: #{file[:tempfile].size}"
+           p "Path: #{file[:tempfile].path}"
            csv = CSV.new(file[:tempfile], headers: true, converters: :all)
            data = csv.to_a.map do |row| 
+             p "Row: #{row.to_hash}"
              {
                description: row["KSF"],
                predicted: row["Prognose"],
@@ -43,7 +44,8 @@ module Basic
                tablets: [
                  { text: row["Tot en met"]},
                  { text: row["Jaar"]}
-               ]
+               ],
+               unit: (<%= ENV['DEFAULT_CURRENCY'] %> || "EUR"),
              }
            end
            p "Data for #{label} is #{data}"
