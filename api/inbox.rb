@@ -34,7 +34,10 @@ module Basic
            p "Label: #{label}"
            p "Size: #{file[:tempfile].size}"
            p "Path: #{file[:tempfile].path}"
-           csv = CSV.new(file[:tempfile], headers: true, converters: :all)
+           csv = CSV.new(file[:tempfile],
+                         col_sep: ';',
+                         headers: true,
+                         converters: :all)
            data = csv.to_a.map do |row| 
              p "Row: #{row.to_hash}"
              {
