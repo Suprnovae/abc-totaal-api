@@ -48,7 +48,7 @@ module Basic
                  { text: row["Tot en met"]},
                  { text: row["Jaar"]}
                ],
-               unit: (<%= ENV['DEFAULT_CURRENCY'] %> || "EUR"),
+               unit: (ENV['DEFAULT_CURRENCY'] || "EUR"),
              }
            end
            p "Data for #{label} is #{data}"
