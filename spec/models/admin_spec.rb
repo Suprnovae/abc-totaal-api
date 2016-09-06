@@ -11,7 +11,7 @@ RSpec.describe Basic::Models::Admin, type: :model do
 
   after(:each) { bogey.destroy! }
 
-  it 'checks passwords' do
+  it 'demands passwords' do
     expect(bogey.save).to eq(true)
     expect(bogey).to be_persisted
     bogey_creds = [details[:email], details[:secret]]

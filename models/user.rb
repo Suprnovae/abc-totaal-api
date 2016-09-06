@@ -6,13 +6,16 @@ module Basic
       include Mongoid::Document
       include BCrypt
 
+      include Basic::Ability::Tokenizable
+
       attr_accessor :secret
-      #attr_protected :salt
 
       field :email, type: String
       field :name, type: String
       field :salt, type: String
       field :report_id, type: BSON::ObjectId
+
+      has_many :tokens, as: :tokenizable
 
       index({ email: 1 }, { unique: true })
 

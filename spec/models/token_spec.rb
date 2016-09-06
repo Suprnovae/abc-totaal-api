@@ -5,7 +5,7 @@ RSpec.describe Basic::Models::Token, type: :model do
     expect(described_class.create({ })).to_not be_valid
   end
 
-  it 'prevents double storage' do
+  it 'prevents duplicates' do
     word = SecureRandom.hex
     first = described_class.new(value: word)
     second = described_class.new(value: word)
