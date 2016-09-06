@@ -2,7 +2,13 @@ namespace :db do
   require 'mongoid'
   require 'yaml'
 
+  env = ENV['RACK_ENV']
+  puts "env is #{env}"
+  fail("RACK_ENV is \"#{env}\" and should be set") unless env
+
+  Dir[File.dirname(__FILE__) + '/abilities/*.rb'].each {|file| require file }
   Dir[File.dirname(__FILE__) + '/models/*.rb'].each {|file| require file }
+
   Mongoid.load! 'config/mongoid.yml'
 
   models = [
@@ -14,12 +20,6 @@ namespace :db do
 
   desc 'Create indexes for Mongo collections'
   task :create_indexes do
-    env = ENV['RACK_ENV']
-    puts "RACK_ENV is #{env}"
-    unless env
-      puts 'Specify RACK_ENV' and exit
-    end
-
     models.each do |model|
       puts "Creating indexes for #{model}: #{model.create_indexes}"
     end
@@ -27,13 +27,26 @@ namespace :db do
 
   desc 'Remove indexes for Mongo collections'
   task :remove_indexes do
-    env = ENV['RACK_ENV']
-    unless env
-      puts 'Specify RACK_ENV' and exit
-    end
-
     models.each do |model|
       puts "Removing indexes for #{model}: #{model.remove_indexes}"
+    end
+  end
+
+  desc "Count items per model"
+  task :count do
+    models.each do |model|
+      puts "#{model} count: #{model.count}"
+    end
+  end
+
+  desc "List items per model"
+  task :list do
+    models.each do |model|
+      puts "#{model}"
+      model.all.each do |item|
+        puts "#{item.attributes}"
+      end
+      puts ""
     end
   end
 
