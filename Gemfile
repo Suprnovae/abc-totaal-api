@@ -3,6 +3,10 @@ ruby '2.3.1'
 
 gem 'grape', '~> 0.16.2'
 
+group :development do
+  gem 'guard-rspec', '~> 4.7.3', require: false
+end
+
 group :test do
   gem 'rack-test', '~> 0.6.3'
   gem 'rspec', '~> 3.4.0'
