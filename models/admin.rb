@@ -4,9 +4,9 @@ module Basic
   module Models
     class Admin
       include Mongoid::Document
-      include BCrypt
 
       include Basic::Ability::Tokenizable
+      include Basic::Ability::Passwordable
 
       attr_accessor :secret
 
@@ -22,24 +22,6 @@ module Basic
       store_in collection: 'admins'
 
       before_save :encrypt_password
-
-      def has_password?(secret)
-        return true if self.password == secret
-        false
-      end
-
-      def self.authenticates_with?(handle, secret)
-        user = self.where(email: handle).first
-        user && user.has_password?(secret)
-      end
-
-      def password
-        Password.new(self.salt)
-      end
-
-      def encrypt_password
-        self.salt = Password.create(@secret)
-      end
     end
   end
 end
