@@ -1,6 +1,3 @@
-require 'bcrypt'
-require 'openssl'
-
 module Basic
   module Models
     class Token
