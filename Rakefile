@@ -7,9 +7,10 @@ namespace :db do
 
   desc 'Create indexes for Mongo collections'
   task :create_indexes do
-    env = ENV['RAILS_ENV']
+    env = ENV['RACK_ENV']
+    puts "RACK_ENV is #{env}"
     unless env
-      puts 'Specify RAILS_ENV' and exit
+      puts 'Specify RACK_ENV' and exit
     end
 
     [
@@ -24,12 +25,17 @@ namespace :db do
 
   desc 'Remove indexes for Mongo collections'
   task :remove_indexes do
-    env = ENV['RAILS_ENV']
+    env = ENV['RACK_ENV']
     unless env
-      puts 'Specify RAILS_ENV' and exit
+      puts 'Specify RACK_ENV' and exit
     end
 
-    [Basic::Models::Report, Basic::Models::User].each do |model|
+    [
+      Basic::Models::Report,
+      Basic::Models::User,
+      Basic::Models::Admin,
+      Basic::Models::Token,
+    ].each do |model|
       puts "Removing indexes for #{model}: #{model.remove_indexes}"
     end
   end
@@ -67,8 +73,8 @@ namespace :db do
 
   desc "Upload reports"
   task :report, :payload do |t, args|
-    (puts 'Specify RAILS_ENV' and exit) unless ENV['RAILS_ENV']
-    puts "env is #{ENV['RAILS_ENV']}"
+    (puts 'Specify RACK_ENV' and exit) unless ENV['RACK_ENV']
+    puts "env is #{ENV['RACK_ENV']}"
 
     loaded = YAML::load_file(File.join(__dir__, args[:payload]))
 
