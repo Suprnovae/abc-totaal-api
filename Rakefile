@@ -5,6 +5,13 @@ namespace :db do
   Dir[File.dirname(__FILE__) + '/models/*.rb'].each {|file| require file }
   Mongoid.load! 'config/mongoid.yml'
 
+  models = [
+    Basic::Models::Report,
+    Basic::Models::User,
+    Basic::Models::Admin,
+    Basic::Models::Token,
+  ]
+
   desc 'Create indexes for Mongo collections'
   task :create_indexes do
     env = ENV['RACK_ENV']
@@ -13,12 +20,7 @@ namespace :db do
       puts 'Specify RACK_ENV' and exit
     end
 
-    [
-      Basic::Models::Report,
-      Basic::Models::User,
-      Basic::Models::Admin,
-      Basic::Models::Token,
-    ].each do |model|
+    models.each do |model|
       puts "Creating indexes for #{model}: #{model.create_indexes}"
     end
   end
@@ -30,12 +32,7 @@ namespace :db do
       puts 'Specify RACK_ENV' and exit
     end
 
-    [
-      Basic::Models::Report,
-      Basic::Models::User,
-      Basic::Models::Admin,
-      Basic::Models::Token,
-    ].each do |model|
+    models.each do |model|
       puts "Removing indexes for #{model}: #{model.remove_indexes}"
     end
   end
