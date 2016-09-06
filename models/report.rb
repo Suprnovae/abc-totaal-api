@@ -12,6 +12,8 @@ module Basic
       index({ shortname: 1 }, { unique: true })
 
       store_in collection: 'reports'
+
+      has_and_belongs_to_many :admins
     end
   end
 end

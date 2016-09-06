@@ -12,7 +12,12 @@ namespace :db do
       puts 'Specify RAILS_ENV' and exit
     end
 
-    [Basic::Models::Report, Basic::Models::User].each do |model|
+    [
+      Basic::Models::Report,
+      Basic::Models::User,
+      Basic::Models::Admin,
+      Basic::Models::Token,
+    ].each do |model|
       puts "Creating indexes for #{model}: #{model.create_indexes}"
     end
   end
