@@ -8,7 +8,9 @@ module Basic
 
     mount Basic::Overview => '/overview'
     mount Basic::Stats => '/stats'
-    mount Basic::Inbox => '/inbox'
+    mount Basic::Hooks::Inbox => '/inbox'
+    mount Basic::Hooks::Inbox => '/hooks/report'
+    mount Basic::Hooks::UserUpdate => '/hooks/user'
 
     add_swagger_documentation
 
