@@ -6,6 +6,7 @@ gem 'grape', '~> 0.16.2'
 group :development do
   gem 'guard-rspec', '~> 4.7.3', require: false
   gem 'grape-swagger', '~> 0.23.0'
+  gem 'pry', '~> 0.10.4'
 end
 
 group :test do

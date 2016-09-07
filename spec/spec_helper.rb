@@ -1,5 +1,8 @@
 require 'rack/test'
 require 'mongoid-rspec'
+if ENV['RACK_ENV'] == 'test'
+  require 'pry'
+end
 
 require File.expand_path('../../config/env', __FILE__)
 
