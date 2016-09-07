@@ -2,7 +2,9 @@ require 'spec_helper'
 
 RSpec.describe Basic::Models::Report, type: :model do
   before(:each) { described_class.collection.drop }
+
   let(:acme_report) { {
+    shortname: 'acme',
     organization: 'Acme Corp',
     comment: 'Just an update',
     data: []

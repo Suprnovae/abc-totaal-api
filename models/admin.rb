@@ -2,7 +2,7 @@ require 'bcrypt'
 
 module Basic
   module Models
-    class User
+    class Admin
       include Mongoid::Document
 
       include Basic::Ability::Tokenizable
@@ -13,21 +13,13 @@ module Basic
       field :email, type: String
       field :name, type: String
       field :salt, type: String
-      field :report_id, type: BSON::ObjectId
 
       has_many :tokens, as: :tokenizable
+      has_and_belongs_to_many :reports
 
       index({ email: 1 }, { unique: true })
 
-      store_in collection: 'users'
-
-      def report
-        Basic::Models::Report.find(report_id)
-      end
-
-      def report=(existing_report)
-        self.report_id = existing_report.id
-      end
+      store_in collection: 'admins'
 
       before_save :encrypt_password
     end
