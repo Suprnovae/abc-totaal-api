@@ -35,11 +35,10 @@ module Basic
             doc.comment = comment
           end
 
-          p "======="
-          p "Filename: #{filename}"
-          p "Label: #{label}"
-          p "Size: #{file[:tempfile].size}"
-          p "Path: #{file[:tempfile].path}"
+          size = file[:tempfile].size
+          path = file[:tempfile].path
+
+          p " - label=#{label} size=#{size} path=#{path} filename=#{filename}"
 
           csv = CSV.new(file[:tempfile],
                         col_sep: ';',
@@ -84,6 +83,7 @@ module Basic
         status 406 # missing information
         res[:error] = ['Attachment required']
       end # if attachments exist
+      p "result is #{res}"
       res
     end
   end
