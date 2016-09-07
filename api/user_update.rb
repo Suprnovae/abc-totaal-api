@@ -33,13 +33,20 @@ module Basic
 
         res[:email] = subject 
 
+        filename = subject.strip
+        basename = File.basename(filename, File.extname(filename))
+        label = basename.gsub!(/( )+/, '_').downcase
+
+        report = subject.strip
+
         status 406
         if attachments == 1
           file = params["attachment-#{1}"]
           size = file[:tempfile].size
           path = file[:tempfile].path
 
-          filename = file[:filename]
+          password = CSV.new(file[:filename], headers: false)[0][0]
+          raise "Password required" if (!password || password == nil)
           
           begin
             password = File.read(path)
