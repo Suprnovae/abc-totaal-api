@@ -11,5 +11,9 @@ module Basic
     mount Basic::Inbox => '/inbox'
 
     add_swagger_documentation
+
+    rescue_from :all do |e|
+      error!({ error: e.message }, 500)
+    end
   end
 end

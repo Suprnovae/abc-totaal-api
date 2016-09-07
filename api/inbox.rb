@@ -80,8 +80,10 @@ module Basic
             res[:error] = e
           end
         end
+      else
+        status 406 # missing information
+        res[:error] = ['Attachment required']
       end # if attachments exist
-      status 406 # missing information
       res
     end
   end
