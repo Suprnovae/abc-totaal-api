@@ -6,6 +6,7 @@ module Basic
       field :shortname, type: String
       field :organization, type: String
       field :comment, type: String
+      field :created_at, type: DateTime, default: Time.now
       field :updated_at, type: DateTime, default: Time.now
       field :data, type: Array
 
