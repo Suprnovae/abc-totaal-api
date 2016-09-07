@@ -38,7 +38,7 @@ module Basic
           size = file[:tempfile].size
           path = file[:tempfile].path
 
-          p " - label=#{label} size=#{size} path=#{path} filename=#{filename}"
+          p " - #{filename} = #{size} bytes @ #{path}"
 
           csv = CSV.new(file[:tempfile],
                         col_sep: ';',
@@ -58,7 +58,6 @@ module Basic
             }
           end
 
-          p "Data for #{label} is #{data}"
           doc.data = data
 
           res = {
@@ -83,7 +82,7 @@ module Basic
         status 406 # missing information
         res[:error] = ['Attachment required']
       end # if attachments exist
-      p "result is #{res}"
+      p "#{res}"
       res
     end
   end
