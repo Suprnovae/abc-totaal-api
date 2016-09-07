@@ -18,6 +18,8 @@ module Basic
        p "Comment:#{comment}"
        p "Attachments: #{attachments}"
 
+       res = {}
+
        if attachments > 0
          (1..attachments).each do |attachment_id|
            file = params["attachment-#{attachment_id}"]
@@ -51,16 +53,30 @@ module Basic
                unit: (ENV['DEFAULT_CURRENCY'] || "EUR"),
              }
            end
+
            p "Data for #{label} is #{data}"
            doc.data = data
-           if doc.save
+           res = {
+             shortname: doc.shortname,
+             organization: doc.organization,
+             comment: doc.comment,
+             created_at: doc.created_at,
+             updated_at: doc.updated_at,
+             data: doc.data
+           }
+
+           begin
+             doc.save!
              status :created
-           else
+             res[:id] = doc.id
+           rescue e
              status :conflict
+             res[:error] = e
            end
          end
        end # if attachments exist
        status 406 # missing information
+       res
     end
   end
 end
