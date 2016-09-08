@@ -7,7 +7,7 @@ describe Basic::API do
     Basic::API
   end
 
-  before do
+  before(:all) do
     [Basic::Models::User, Basic::Models::Report].each do |model|
       model.collection.drop
     end

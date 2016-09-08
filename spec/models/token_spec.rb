@@ -1,6 +1,13 @@
 require 'spec_helper'
 
 RSpec.describe Basic::Models::Token, type: :model do
+  before(:all) do
+    [Basic::Models::Token].each do |model|
+      model.collection.drop
+      model.create_indexes
+    end
+  end
+
   it 'validates the presence of a token value' do
     expect(described_class.create({ })).to_not be_valid
   end

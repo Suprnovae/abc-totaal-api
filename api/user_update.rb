@@ -6,7 +6,7 @@ module Basic
     class UserUpdate < Grape::API
       helpers do
         def log
-          API.logger
+          API.logger.new(STDOUT)
         end
       end
   

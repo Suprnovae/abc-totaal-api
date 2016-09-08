@@ -14,6 +14,11 @@ module Basic
       store_in collection: 'tokens'
 
       validates_presence_of :value
+
+      def expired?
+        p "TTL=#{expires_on - Time.now}s expired? #{expires_on <= Time.now}"
+        expires_on <= Time.now
+      end
     end
   end
 end
