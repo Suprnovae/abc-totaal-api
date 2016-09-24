@@ -1,4 +1,5 @@
 require 'openssl'
+require 'rack'
 
 module Basic
   module Ability
