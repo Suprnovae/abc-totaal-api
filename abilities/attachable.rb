@@ -31,6 +31,17 @@ module Basic
         end
       end
 
+      def for_every_csv_attachment(n, params)
+        if n > 0
+          (1..n).each do |attachment_n|
+            file = params["attachment-#{attachment_n}"]
+            filename = file[:filename]
+            next unless File.extname(filename).downcase == ".csv"
+            yield file
+          end
+        end
+      end
+
       def extract_users_from(file)
         read_csv(file).to_a.map do |row|
           {

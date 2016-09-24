@@ -55,4 +55,14 @@ RSpec.describe Basic::Ability::Attachable do
       extract_users_from(File.open("spec/fixtures/users_without_handles_col.csv"))
     }.to raise_error(Basic::Ability::Attachable::IncompleteAttachmentException)
   end
+
+  it 'yields on every CSV attachment' do
+    params = {
+      'attachment-1' => { name: 'yoda', filename: 'yoda.csv' },
+      'attachment-2' => { name: 'jarjar', filename: 'jarjar.csv' },
+      'attachment-3' => { name: 'leila', filename: 'leila.csv' },
+    }
+    filenames = params.map { |k, v| v }
+    expect { |b| for_every_csv_attachment(3, params, &b) }.to yield_successive_args(*filenames)
+  end
 end
