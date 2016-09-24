@@ -6,11 +6,8 @@ module Basic
       class IncompleteAttachmentException < RuntimeError
       end
 
-      def read_csv(filename)
-        CSV.new(File.open(filename),
-                col_sep: ';',
-                headers: true,
-                converters: :all)
+      def read_csv(file)
+        CSV.new(file, col_sep: ';', headers: true, converters: :all)
       end
 
       def extract_value(val, source)
