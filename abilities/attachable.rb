@@ -35,7 +35,7 @@ module Basic
             file = params["attachment-#{attachment_n}"]
             filename = file[:filename]
             next unless File.extname(filename).downcase == ".csv"
-            yield file
+            yield attachment_n, file
           end
         end
       end

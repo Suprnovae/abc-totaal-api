@@ -62,7 +62,7 @@ RSpec.describe Basic::Ability::Attachable do
       'attachment-2' => { name: 'jarjar', filename: 'jarjar.csv' },
       'attachment-3' => { name: 'leila', filename: 'leila.csv' },
     }
-    filenames = params.map { |k, v| v }
-    expect { |b| for_every_csv_attachment(3, params, &b) }.to yield_successive_args(*filenames)
+    args = params.map { |k, v| v }.map.with_index(1) { |v, i| [i, v] }
+    expect { |b| for_every_csv_attachment(3, params, &b) }.to yield_successive_args(*args)
   end
 end
