@@ -1,89 +1,85 @@
 require 'csv'
+require 'json'
 
 module Basic
-  class Inbox < Grape::API
-    post '/' do
-      # https://documentation.mailgun.com/user_manual.html#routes
-      p "========================================"
-      recipient = params[:recipient]
-      sender = params[:sender]
-      from = params[:from]
-      subject = params[:subject]
-      comment = params[:'body-plain']
-      attachments = (params[:'attachment-count'].to_i || 0)
+  module Hooks
+    class Inbox < Grape::API
+      helpers do
+        include Basic::Ability::Attachable
+      end
 
-      p "Recipient: #{recipient}"
-      p "Sender: #{sender}"
-      p "From: #{from}"
-      p "Subject: #{subject}"
-      p "Comment:#{comment}"
-      p "Attachments: #{attachments}"
+      format :json
 
-      res = {}
-
-      if attachments > 0
-        (1..attachments).each do |attachment_id|
-          file = params["attachment-#{attachment_id}"]
-          filename = file[:filename]
-          basename = File.basename(filename, File.extname(filename))
-          label = basename.gsub!(/( )+/, '_').downcase
-          doc = Basic::Models::Report.find_or_initialize_by shortname: label
-          doc.updated_at = Time.now
-
-          if attachments == 1
-            doc.organization = subject
-            doc.comment = comment
-          end
-
-          size = file[:tempfile].size
-          path = file[:tempfile].path
-
-          p " - #{filename} = #{size} bytes @ #{path}"
-
-          csv = CSV.new(file[:tempfile],
-                        col_sep: ';',
-                        headers: true,
-                        converters: :all)
-          data = csv.to_a.map do |row| 
-            p "Row: #{row.to_hash}"
-            {
-              description: row["KSF"],
-              predicted: row["Prognose"],
-              actual: row["Realisatie"],
-              tablets: [
-                { text: row["Tot en met"]},
-                { text: row["Jaar"]}
-              ],
-              unit: (ENV['DEFAULT_CURRENCY'] || "EUR"),
-            }
-          end
-
-          doc.data = data
-
-          res = {
-            shortname: doc.shortname,
-            organization: doc.organization,
-            comment: doc.comment,
-            created_at: doc.created_at,
-            updated_at: doc.updated_at,
-            data: doc.data
-          }
-
-          begin
-            doc.save!
-            status :created
-            res[:id] = doc.id
-          rescue e
-            status :conflict
-            res[:error] = e
-          end
+      helpers do
+        def log
+          API.logger
         end
-      else
-        status 406 # missing information
-        res[:error] = ['Attachment required']
-      end # if attachments exist
-      p "#{res}"
-      res
+      end
+
+      post '/' do
+        # https://documentation.mailgun.com/user_manual.html#routes
+        recipient = params[:recipient]
+        sender = params[:sender]
+        from = params[:from]
+        subject = params[:subject]
+        comment = params[:'body-plain']
+        attachments = (params[:'attachment-count'].to_i || 0)
+
+        log.info "Recipient: #{recipient}"
+        log.info "Sender: #{sender}"
+        log.info "From: #{from}"
+        log.info "Subject: #{subject}"
+        log.info "Comment:#{comment}"
+        log.info "Attachment counts: #{attachments}"
+
+        res = {}
+        is_new = nil
+
+        status = 406
+        begin
+          for_every_csv_attachment(attachments, params) do |i, file|
+            filename = file[:filename]
+            basename = File.basename(filename, File.extname(filename))
+            label = sanitize basename
+            doc = Basic::Models::Report.find_or_initialize_by shortname: label
+
+            is_new = doc.new_record?
+            doc.updated_at = Time.now
+  
+            if attachments == 1
+              doc.organization = subject
+              doc.comment = comment
+            end
+
+            size = file["tempfile"].size
+            path = file["tempfile"].path
+  
+            log.info "Attachment #{i} for #{label}: #{filename} #{path} #{size}bytes"
+            doc.data = extract_report_from(file["tempfile"])
+
+            res = {
+              shortname: doc.shortname,
+              organization: doc.organization,
+              comment: doc.comment,
+              created_at: doc.created_at,
+              updated_at: doc.updated_at,
+              data: doc.data
+            }
+
+            doc.save!
+            action = ((:created if is_new) or :ok)
+            status action
+            res[:id] = doc.id.to_s
+          end # for every csv
+        rescue => e
+          status(:conflict)
+          res[:error] = e.message
+        end
+        res[:error] = ['Attachment required'] if attachments == 0
+        log.info "Created report: #{res.to_json}"
+        log.error "Failed because: #{res[:error]}" if res[:error]
+        res
+      end
     end
   end
 end
