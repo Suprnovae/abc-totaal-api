@@ -10,6 +10,7 @@ describe Basic::Hooks::UserUpdate do
 
   before(:each) {
     Basic::Models::User.destroy_all
+    Basic::Models::Report.destroy_all
   }
 
   context 'POST user hook without attachment' do
@@ -65,11 +66,6 @@ describe Basic::Hooks::UserUpdate do
   end
 
   context 'POST user hook with attachment for missing report' do
-    before(:each) {
-      Basic::Models::User.destroy_all
-      Basic::Models::Report.destroy_all
-    }
-
     let(:params) {
       {
         'recipient': 'machine@example.com',
