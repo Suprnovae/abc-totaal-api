@@ -23,37 +23,37 @@ RSpec.describe Basic::Ability::Attachable do
   it 'fails when handles are missing' do
     expect {
       extract_users_from(File.open("spec/fixtures/user_without_handle.csv"))
-    }.to raise_error(Basic::Ability::Attachable::IncompleteAttachmentException)
+    }.to raise_error(IncompleteAttachmentException)
   end
 
   it 'fails when secrets are missing' do
     expect {
       extract_users_from(File.open("spec/fixtures/user_without_secret.csv"))
-    }.to raise_error(Basic::Ability::Attachable::IncompleteAttachmentException)
+    }.to raise_error(IncompleteAttachmentException)
   end
 
   it 'fails when reports are missing' do
     expect {
       extract_users_from(File.open("spec/fixtures/user_without_report.csv"))
-    }.to raise_error(Basic::Ability::Attachable::IncompleteAttachmentException)
+    }.to raise_error(IncompleteAttachmentException)
   end
 
   it 'fails when secrets column is missing' do
     expect {
       extract_users_from(File.open("spec/fixtures/users_without_secret_col.csv"))
-    }.to raise_error(Basic::Ability::Attachable::IncompleteAttachmentException)
+    }.to raise_error(IncompleteAttachmentException)
   end
 
   it 'fails when handles column is missing' do
     expect {
       extract_users_from(File.open("spec/fixtures/users_without_handles_col.csv"))
-    }.to raise_error(Basic::Ability::Attachable::IncompleteAttachmentException)
+    }.to raise_error(IncompleteAttachmentException)
   end
 
   it 'fails when handles column is missing' do
     expect {
       extract_users_from(File.open("spec/fixtures/users_without_handles_col.csv"))
-    }.to raise_error(Basic::Ability::Attachable::IncompleteAttachmentException)
+    }.to raise_error(IncompleteAttachmentException)
   end
 
   it 'yields on every CSV attachment' do

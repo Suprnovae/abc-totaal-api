@@ -1,10 +1,8 @@
+class IncompleteAttachmentException < RuntimeError; end
 module Basic
   module Ability
     module Attachable
       require 'csv'
-
-      class IncompleteAttachmentException < RuntimeError
-      end
 
       def read_csv(file)
         CSV.new(file, col_sep: ';', headers: true, converters: :all)
