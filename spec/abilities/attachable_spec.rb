@@ -65,4 +65,23 @@ RSpec.describe Basic::Ability::Attachable do
     args = params.map { |k, v| v }.map.with_index(1) { |v, i| [i, v] }
     expect { |b| for_every_csv_attachment(3, params, &b) }.to yield_successive_args(*args)
   end
+
+  it 'sanitizes names' do
+    sanitizations = [
+      ['information for you and i', 'information_for_you_and_i'],
+      ['Stark Industries', 'stark_industries'],
+      ['Do-re-Mi-fa-So', 'do-re-mi-fa-so'],
+      ['You & I', 'you_and_i'],
+      ['foo@example.com', 'foo_at_example.com'],
+      ['x = 12', 'x_is_12'],
+      ['Andrew <a@example.com>', 'andrew_a_at_example.com'],
+      ['Deep {learning} machine', 'deep_learning_machine'],
+      ['~tilde~another~hi', 'tilde_another_hi'],
+      ['$var', 'var'],
+      ['This is (very) useful... or not', 'this_is_very_useful_or_not'],
+      ['are?you?', 'are_you'],
+    ]
+
+    sanitizations.map { |c| expect(sanitize(c[0])).to eq(c[1]) }
+  end
 end

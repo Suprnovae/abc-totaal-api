@@ -4,6 +4,26 @@ module Basic
     module Attachable
       require 'csv'
 
+      def sanitize(name)
+        name.
+          downcase.
+          # Deal with reserved chars ; / ? : @ = &
+          gsub(/[;\/?:]/, ' ').
+          gsub(/@/, ' at ').
+          gsub(/&/, ' and ').
+          gsub(/=/, ' is ').
+          # Deal with unsafe chars < > # % { } | \ ^ ~ [ ]
+          gsub(/[<>#%{}|\\^~\[\]`]/, ' ').
+          # Deal with safe but unwanted chars $_.+!*'()
+          gsub(/\+/, ' plus ').
+          gsub(/\*/, ' star ').
+          gsub(/[!()'$]/, '').
+          gsub(/\.{2,}/, ''). # remove ellipsises
+          # Strip final whitespacing
+          strip.
+          gsub(/( )+/, '_')
+      end
+
       def read_csv(file)
         CSV.new(file, col_sep: ';', headers: true, converters: :all)
       end
