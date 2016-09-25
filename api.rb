@@ -10,11 +10,9 @@ module Basic
     mount Basic::Overview => '/overview'
     mount Basic::Reports => '/reports'
     mount Basic::Stats => '/stats'
-    # TODO: phase out /inbox for /hooks/report
-    mount Basic::Hooks::Inbox => '/inbox'
-    # TODO: rename Inbox to Report
-    mount Basic::Hooks::Inbox => '/hooks/report'
-    mount Basic::Hooks::UserUpdate => '/hooks/user'
+
+    mount Basic::Hooks::Inbox => '/hooks/mailgun/report'
+    mount Basic::Hooks::UserUpdate => '/hooks/mailgun/user'
 
     mount Basic::Auth::User => '/auth/user'
     #mount Basic::Auth::Admin => '/auth/admin'

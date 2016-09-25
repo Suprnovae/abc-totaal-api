@@ -9,8 +9,8 @@ def require_files_that_match(pattern)
 end
 Mongoid.load! File.dirname(__FILE__) + '/mongoid.yml'
 
-require_files_that_match('/../api/*.rb')
 require_files_that_match('/../abilities/*.rb')
 require_files_that_match('/../models/*.rb')
+require_files_that_match('/../api/*.rb')
 
 require File.dirname(__FILE__) + '/../api.rb'
