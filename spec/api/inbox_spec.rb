@@ -24,7 +24,7 @@ describe Basic::API do
     }
 
     it 'fails on account of an attachment being required' do
-      post '/inbox', params
+      post '/hooks/mailgun/report', params
       expect(JSON.parse(last_response.body)["error"]).to include(/[a|A]ttachment required/)
     end
   end
@@ -46,7 +46,7 @@ describe Basic::API do
     }
 
     it 'fails on account of an attachment being required' do
-      expect { post '/inbox', params }.to change{ Basic::Models::Report.count }.by(2)
+      expect { post '/hooks/mailgun/report', params }.to change{ Basic::Models::Report.count }.by(2)
       expect(last_response).to be_created
     end
   end
@@ -65,10 +65,10 @@ describe Basic::API do
     }
 
     it 'succeeds' do
-      post '/inbox', params
+      post '/hooks/mailgun/report', params
       expect(last_response).to be_created
 
-      post '/inbox', params
+      post '/hooks/mailgun/report', params
       expect(last_response).to be_ok
     end
   end
@@ -88,10 +88,10 @@ describe Basic::API do
     }
 
     it 'succeeds' do
-      expect { post '/inbox', params }.to change{ Basic::Models::Report.count }.by(2)
+      expect { post '/hooks/mailgun/report', params }.to change{ Basic::Models::Report.count }.by(2)
       expect(last_response).to be_created
 
-      expect { post '/inbox', params }.to change{ Basic::Models::Report.count }.by(0)
+      expect { post '/hooks/mailgun/report', params }.to change{ Basic::Models::Report.count }.by(0)
       expect(last_response).to be_ok
     end
   end
@@ -111,10 +111,10 @@ describe Basic::API do
     }
 
     it 'succeeds' do
-      expect { post '/inbox', params }.to change{ Basic::Models::Report.count }.by(2)
+      expect { post '/hooks/mailgun/report', params }.to change{ Basic::Models::Report.count }.by(2)
       expect(last_response).to be_created
 
-      expect { post '/inbox', params }.to change{ Basic::Models::Report.count }.by(0)
+      expect { post '/hooks/mailgun/report', params }.to change{ Basic::Models::Report.count }.by(0)
       expect(last_response).to be_ok
     end
   end
