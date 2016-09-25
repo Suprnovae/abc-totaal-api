@@ -4,7 +4,9 @@ RSpec.describe Basic::Ability::Attachable do
   include Basic::Ability::Attachable
 
   it 'extracts all report entries' do
-    extract_report_from(File.open("spec/fixtures/report.csv")).each do |i|
+    result = extract_report_from(File.open("spec/fixtures/report.csv"))
+    expect(result.count).to eq(3)
+    result.each do |i|
       expect(i).to include(:description)
       expect(i[:description]).to be_a_kind_of(String)
       expect(i).to include(:predicted)
